@@ -1,15 +1,37 @@
-<h2>
+<h2 class="mb-4">
   {{title}}
 </h2>
-{{#each message}}
-  <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
-    <div class="card-body">
-      <p class="card-text">
-        {{this.text}}
-      </p>
+{{#if user}}
+  <a
+    href="/add-message"
+    ole="button"
+    type="button"
+    class="btn btn-primary mb-4"
+  >
+    Add new message
+  </a>
+{{/if}}
+<div class="row row-cols-auto">
+  {{#each messages}}
+    <div class="col">
+      <div class="card text-dark bg-light mb-4">
+        <div class="card-body">
+          <p class="card-text">
+            {{this.text}}
+          </p>
+        </div>
+        <div class="card-footer">
+          <small class="card-text text-muted">
+            {{#if ../user}}
+              <i class="bi-person-fill"></i>
+              {{this.user.username}}
+              <br />
+            {{/if}}
+            <i class="bi-clock"></i>
+            {{this.timeAgo}}
+          </small>
+        </div>
+      </div>
     </div>
-    <div class="card-footer text-muted">
-      {{this.user.username}}
-    </div>
-  </div>
-{{/each}}
+  {{/each}}
+</div>

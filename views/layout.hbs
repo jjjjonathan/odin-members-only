@@ -2,10 +2,11 @@
 {{! prettier-ignore }}
 <html lang="en">
   <head>
-    <title>{{title}}</title>
+    <title>Members Only | {{title}}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
@@ -15,9 +16,13 @@
           <span class="fs-4">Members Only</span>
         </a>
         <ul class="nav nav-pills">
-          <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Messages</a></li>
-          <li class="nav-item"><a href="/sign-in" class="nav-link">Sign In</a></li>
-          <li class="nav-item"><a href="/sign-up" class="nav-link">Sign Up</a></li>
+          <li class="nav-item"><a href="/" class="nav-link{{#if messagesPage}} active{{/if}}" aria-current="page">Messages</a></li>
+          {{#if user}}
+          <li class="nav-item"><a href="/sign-out" class="nav-link">Sign Out</a></li>
+          {{else}}
+          <li class="nav-item"><a href="/sign-in" class="nav-link{{#if signInPage}} active{{/if}}">Sign In</a></li>
+          <li class="nav-item"><a href="/sign-up" class="nav-link{{#if signUpPage}} active{{/if}}">Sign Up</a></li>
+          {{/if}}
         </ul>
       </header>
     </div>
