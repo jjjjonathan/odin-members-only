@@ -26,12 +26,18 @@ exports.postSignUp = async (req, res) => {
 };
 
 exports.getSignIn = (req, res) => {
-  res.render('sign-in', { title: 'Sign In', user: req.user, signInPage: true });
+  res.render('sign-in', {
+    title: 'Sign In',
+    errorMessage: req.flash('error')[0],
+    user: req.user,
+    signInPage: true,
+  });
 };
 
 exports.postSignIn = passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/sign-in',
+  failureFlash: 'Invalid username or password.',
 });
 
 exports.getSignOut = (req, res) => {
