@@ -1,2 +1,12 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+{{#each message}}
+  <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-body">
+      <p class="card-text">
+        {{this.text}}
+      </p>
+    </div>
+    <div class="card-footer text-muted">
+      {{this.user.username}}
+    </div>
+  </div>
+{{/each}}
