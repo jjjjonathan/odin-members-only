@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable comma-dangle */
 require('dotenv').config();
 
 const createError = require('http-errors');
@@ -9,12 +11,15 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+
+const User = require('./models/user');
 
 const app = express();
 
@@ -34,6 +39,34 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
+
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    User.findOne({ username }, (err, user) => {
+      if (err) return done(err);
+      if (!user) return done(null, false, { message: 'Incorrect username' });
+
+      bcrypt.compare(password, user.passwordHash, (e, res) => {
+        if (res) {
+          // passwords match! log user in
+          return done(null, user);
+        }
+        // passwords do not match!
+        return done(null, false, { message: 'Incorrect password' });
+      });
+    });
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
 
 app.use(
   session({

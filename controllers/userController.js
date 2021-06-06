@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 const User = require('../models/user');
 
@@ -23,3 +24,12 @@ exports.postSignUp = async (req, res) => {
 
   res.redirect('/sign-in');
 };
+
+exports.getSignIn = (req, res) => {
+  res.render('sign-in', { title: 'Sign In' });
+};
+
+exports.postSignIn = passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/sign-in',
+});
