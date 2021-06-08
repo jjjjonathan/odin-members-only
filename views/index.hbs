@@ -1,7 +1,13 @@
+{{#if successMessage}}
+  <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+    {{successMessage}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{{/if}}
 <h2 class="mb-4">
   {{title}}
 </h2>
-{{#if user}}
+{{#if user.member}}
   <a
     href="/add-message"
     role="button"
@@ -20,17 +26,17 @@
             {{this.text}}
           </p>
         </div>
-        <div class="card-footer">
-          <small class="card-text text-muted">
-            {{#if ../user}}
+        {{#if ../user.member}}
+          <div class="card-footer">
+            <small class="card-text text-muted">
               <i class="bi-person-fill"></i>
               {{this.user.username}}
               <br />
-            {{/if}}
-            <i class="bi-clock"></i>
-            {{this.timeAgo}}
-          </small>
-        </div>
+              <i class="bi-clock"></i>
+              {{this.timeAgo}}
+            </small>
+          </div>
+        {{/if}}
       </div>
     </div>
   {{/each}}

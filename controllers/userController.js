@@ -5,7 +5,11 @@ const passport = require('passport');
 const User = require('../models/user');
 
 exports.getSignUp = (req, res) => {
-  res.render('sign-up', { title: 'Sign Up', user: req.user, signUpPage: true });
+  res.render('sign-up', {
+    title: 'Sign Up',
+    user: req.user,
+    signUpPage: true,
+  });
 };
 
 exports.postSignUp = async (req, res) => {
@@ -23,6 +27,10 @@ exports.postSignUp = async (req, res) => {
 
   await user.save();
 
+  req.flash(
+    'success',
+    'Successfully signed up for Members Only! You can now sign in.'
+  );
   res.redirect('/sign-in');
 };
 
@@ -30,6 +38,7 @@ exports.getSignIn = (req, res) => {
   res.render('sign-in', {
     title: 'Sign In',
     errorMessage: req.flash('error')[0],
+    successMessage: req.flash('success')[0],
     user: req.user,
     signInPage: true,
   });
@@ -39,10 +48,12 @@ exports.postSignIn = passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/sign-in',
   failureFlash: 'Invalid username or password.',
+  successFlash: 'Successfully signed in!',
 });
 
 exports.getSignOut = (req, res) => {
   req.logout();
+  req.flash('success', 'Successfully signed out. Come back soon!');
   res.redirect('/');
 };
 
@@ -85,6 +96,9 @@ exports.postJoinTheClub = async (req, res) => {
       { member: true },
       { new: true }
     );
-    req.login(user, () => res.redirect('/'));
+    req.login(user, () => {
+      req.flash('success', "Congratulations, you're now a member!");
+      return res.redirect('/');
+    });
   }
 };

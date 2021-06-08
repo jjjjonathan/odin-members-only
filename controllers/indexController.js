@@ -8,6 +8,7 @@ exports.getIndex = async (req, res) => {
   res.render('index', {
     title: 'Messages',
     user: req.user,
+    successMessage: req.flash('success')[0],
     messages,
     messagesPage: true,
   });
