@@ -2,6 +2,17 @@
   <h2 class="mb-4">
     {{title}}
   </h2>
+  {{#if errorMessages}}
+    <div class="alert alert-danger" role="alert">
+      <ul>
+        {{#each errorMessages}}
+          <li>
+            {{this}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
   <form action="" method="POST">
     <div class="mb-3">
       <label for="email" class="form-label">

@@ -1,6 +1,7 @@
 /* eslint-disable comma-dangle */
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const { body, validationResult } = require('express-validator');
 
 const User = require('../models/user');
 
@@ -12,27 +13,64 @@ exports.getSignUp = (req, res) => {
   });
 };
 
-exports.postSignUp = async (req, res) => {
-  const { username, email, password } = req.body;
-  const member = false;
+exports.postSignUp = [
+  body('username')
+    .trim()
+    .isLength({ min: 3, max: 30 })
+    .withMessage('Username must be between 3 and 30 characters.')
+    .escape(),
 
-  const passwordHash = await bcrypt.hash(password, 10);
+  body('email')
+    .trim()
+    .isLength({ min: 5 })
+    .withMessage('Email must be be at least 5 characters long.')
+    .isEmail()
+    .withMessage('"Email" field must contain a valid email address.')
+    .escape(),
 
-  const user = new User({
-    username,
-    email,
-    passwordHash,
-    member,
-  });
+  body('password')
+    .isLength({ min: 8, max: 50 })
+    .withMessage('Password must be between 8 and 50 characters.'),
 
-  await user.save();
+  body('passwordConf')
+    .exists()
+    .custom((value, { req }) => value === req.body.password)
+    .withMessage('Passwords must match'),
 
-  req.flash(
-    'success',
-    'Successfully signed up for Members Only! You can now sign in.'
-  );
-  res.redirect('/sign-in');
-};
+  async (req, res) => {
+    const errors = validationResult(req);
+    const { username, email, password } = req.body;
+    const member = false;
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      username,
+      email,
+      passwordHash,
+      member,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are validation errors
+      const errorArray = errors.errors.map((error) => error.msg);
+      res.render('sign-up', {
+        title: 'Sign Up',
+        user: req.user,
+        errorMessages: errorArray,
+        signUpPage: true,
+      });
+    } else {
+      // No validation errors! Golden
+      await user.save();
+
+      req.flash(
+        'success',
+        'Successfully signed up for Members Only! You can now sign in.'
+      );
+      res.redirect('/sign-in');
+    }
+  },
+];
 
 exports.getSignIn = (req, res) => {
   res.render('sign-in', {
