@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema({
   },
   passwordHash: { type: String, required: true },
   member: { type: Boolean, required: true },
+  admin: { type: Boolean, required: false },
   messages: [
     {
       type: mongoose.Schema.Types.ObjectId,
