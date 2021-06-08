@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
 const { formatDistanceToNow } = require('date-fns');
 
@@ -13,6 +14,10 @@ const MessageSchema = new mongoose.Schema({
 
 MessageSchema.virtual('timeAgo').get(function timeAgo() {
   return formatDistanceToNow(this.timestamp, { addSuffix: true });
+});
+
+MessageSchema.virtual('url').get(function getUrl() {
+  return `/messages/${this._id}`;
 });
 
 module.exports = mongoose.model('Message', MessageSchema);

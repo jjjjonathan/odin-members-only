@@ -14,6 +14,10 @@ exports.getIndex = async (req, res) => {
   });
 };
 
+exports.getMessages = (req, res) => {
+  res.redirect('/');
+};
+
 exports.getAddMessage = (req, res) => {
   res.render('add-message', {
     title: 'Add Message',
@@ -31,5 +35,37 @@ exports.postAddMessage = async (req, res) => {
 
   await message.save();
 
+  res.redirect('/');
+};
+
+exports.getDeleteMessage = async (req, res) => {
+  if (!req.user?.admin) {
+    res.render('delete-message', {
+      title: 'Error',
+      user: req.user,
+      errorMessage:
+        'You must be signed in as an administrator to delete a message.',
+    });
+  }
+  const message = await Message.findById(req.params.id).populate('user');
+  res.render('delete-message', {
+    title: 'Delete message?',
+    user: req.user,
+    message,
+  });
+};
+
+exports.postDeleteMessage = async (req, res) => {
+  if (!req.user?.admin) {
+    res.render('delete-message', {
+      title: 'Error',
+      user: req.user,
+      errorMessage:
+        'You must be signed in as an administrator to delete a message.',
+    });
+  }
+
+  await Message.findByIdAndDelete(req.params.id);
+  req.flash('success', 'Successfully deleted the message!');
   res.redirect('/');
 };

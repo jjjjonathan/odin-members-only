@@ -1,0 +1,40 @@
+<div class="container-medium">
+  {{#if errorMessage}}
+    <div class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
+  {{else}}
+    <h2 class="mb-4">
+      {{title}}
+    </h2>
+    <p>
+      Are you sure you want to delete the following message?
+    </p>
+    <div class="card text-secondary border-danger my-4">
+      <div class="card-body">
+        <p class="card-text">
+          {{message.text}}
+        </p>
+      </div>
+      <div class="card-footer">
+        <small class="card-text text-muted">
+          <i class="bi-person-fill"></i>
+          {{message.user.username}}
+          <br />
+          <i class="bi-clock"></i>
+          {{message.timeAgo}}
+        </small>
+      </div>
+    </div>
+    <form method="POST" action="">
+      <div class="d-grid gap-3 d-md-flex">
+        <a href="/" class="btn btn-secondary">
+          No, go back
+        </a>
+        <button type="submit" class="btn btn-danger">
+          Yes, delete
+        </button>
+      </div>
+    </form>
+  {{/if}}
+</div>
