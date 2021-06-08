@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
@@ -51,4 +52,39 @@ exports.getJoinTheClub = (req, res) => {
     user: req.user,
     joinTheClubPage: true,
   });
+};
+
+exports.postJoinTheClub = async (req, res) => {
+  if (!req.user) {
+    res.render('join-the-club', {
+      title: 'Join the club!',
+      user: req.user,
+      joinTheClubPage: true,
+    });
+  }
+
+  const { passcode } = req.body;
+
+  if (passcode !== 'helloFooBarWorld') {
+    res.render('join-the-club', {
+      title: 'Join the club!',
+      user: req.user,
+      errorMessage: 'Incorrect passcode! Try again',
+      joinTheClubPage: true,
+    });
+  } else if (req.user.member) {
+    res.render('join-the-club', {
+      title: 'Join the club!',
+      user: req.user,
+      errorMessage: 'You already have membership status!',
+      joinTheClubPage: true,
+    });
+  } else {
+    const user = await User.findByIdAndUpdate(
+      req.user,
+      { member: true },
+      { new: true }
+    );
+    req.login(user, () => res.redirect('/'));
+  }
 };
