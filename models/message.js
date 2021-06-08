@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 const { formatDistanceToNow } = require('date-fns');
 
 const MessageSchema = new mongoose.Schema({
-  text: { type: String, minLength: 10, required: true },
+  text: {
+    type: String,
+    minLength: 10,
+    maxLength: 1000,
+    required: true,
+  },
   timestamp: { type: Date, required: true },
   user: {
     type: mongoose.Schema.Types.ObjectId,

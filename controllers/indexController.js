@@ -1,3 +1,5 @@
+const { body, validationResult } = require('express-validator');
+
 const Message = require('../models/message');
 
 exports.getIndex = async (req, res) => {
@@ -26,17 +28,36 @@ exports.getAddMessage = (req, res) => {
   });
 };
 
-exports.postAddMessage = async (req, res) => {
-  const { text } = req.body;
-  const { user } = req;
-  const timestamp = new Date();
+exports.postAddMessage = [
+  body('message')
+    .trim()
+    .isLength({ min: 10, max: 1000 })
+    .withMessage('Message must be between 10 and 1000 characters.')
+    .escape(),
 
-  const message = new Message({ text, user, timestamp });
+  async (req, res) => {
+    const errors = validationResult(req);
+    const { text } = req.body;
+    const { user } = req;
+    const timestamp = new Date();
 
-  await message.save();
-
-  res.redirect('/');
-};
+    if (!errors.isEmpty()) {
+      // There are validation errors
+      const errorArray = errors.errors.map((error) => error.msg);
+      res.render('add-message', {
+        title: 'Add Message',
+        user: req.user,
+        errorMessages: errorArray,
+        addMessagePage: true,
+      });
+    } else {
+      // No validation errors! Golden
+      const message = new Message({ text, user, timestamp });
+      await message.save();
+      res.redirect('/');
+    }
+  },
+];
 
 exports.getDeleteMessage = async (req, res) => {
   if (!req.user?.admin) {

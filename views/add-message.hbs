@@ -2,6 +2,17 @@
   <h2 class="mb-4">
     {{title}}
   </h2>
+  {{#if errorMessages}}
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0">
+        {{#each errorMessages}}
+          <li>
+            {{this}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
   {{#if user}}
     <form action="" method="POST">
       <div class="mb-3">
@@ -12,6 +23,8 @@
           class="form-control"
           id="message"
           name="text"
+          minlength="1"
+          maxlength="1000"
           rows="5"
         ></textarea>
       </div>
