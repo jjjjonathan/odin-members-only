@@ -1,0 +1,37 @@
+<div class="container-small">
+  <h2 class="mb-4">
+    {{title}}
+  </h2>
+  {{#if errorMessage}}
+    <div class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
+  {{/if}}
+    {{#if user}}
+  <p>
+    If you're a developer, you should know how to inspect for secrets. Or git them another way.
+  </p>
+  <form action="" method="POST">
+    <div class="mb-3">
+      <label for="passcode" class="form-label">
+        Secret Passcode
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="passcode"
+        name="passcode"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">
+      Submit
+    </button>
+  </form>
+  {{else}}
+    <div class="alert alert-danger" role="alert">
+      You must be logged in to join the club!
+    </div>
+  {{/if}}
+</div>
+</div>

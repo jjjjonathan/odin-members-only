@@ -18,6 +18,7 @@
         <ul class="nav nav-pills">
           <li class="nav-item"><a href="/" class="nav-link{{#if messagesPage}} active{{/if}}" aria-current="page">Messages</a></li>
           {{#if user}}
+          <li class="nav-item"><a href="/join-the-club" class="nav-link{{#if joinTheClubPage}} active{{/if}}">Join the club</a></li>
           <li class="nav-item"><a href="/sign-out" class="nav-link">Sign Out</a></li>
           {{else}}
           <li class="nav-item"><a href="/sign-in" class="nav-link{{#if signInPage}} active{{/if}}">Sign In</a></li>

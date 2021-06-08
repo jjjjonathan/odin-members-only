@@ -44,3 +44,11 @@ exports.getSignOut = (req, res) => {
   req.logout();
   res.redirect('/');
 };
+
+exports.getJoinTheClub = (req, res) => {
+  res.render('join-the-club', {
+    title: 'Join the club!',
+    user: req.user,
+    joinTheClubPage: true,
+  });
+};

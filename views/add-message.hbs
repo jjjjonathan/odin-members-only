@@ -1,25 +1,27 @@
-<h2 class="mb-4">
-  {{title}}
-</h2>
-{{#if user}}
-  <form action="" method="POST">
-    <div class="mb-3">
-      <label for="message" class="form-label">
-        Message:
-      </label>
-      <textarea
-        class="form-control"
-        id="message"
-        name="text"
-        rows="3"
-      ></textarea>
+<div class="container-medium">
+  <h2 class="mb-4">
+    {{title}}
+  </h2>
+  {{#if user}}
+    <form action="" method="POST">
+      <div class="mb-3">
+        <label for="message" class="form-label">
+          Message:
+        </label>
+        <textarea
+          class="form-control"
+          id="message"
+          name="text"
+          rows="5"
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Submit
+      </button>
+    </form>
+  {{else}}
+    <div class="alert alert-danger" role="alert">
+      You must be logged in to add a new message!
     </div>
-    <button type="submit" class="btn btn-primary">
-      Submit
-    </button>
-  </form>
-{{else}}
-  <div class="alert alert-danger" role="alert">
-    You must be logged in to add a new message!
-  </div>
-{{/if}}
+  {{/if}}
+</div>

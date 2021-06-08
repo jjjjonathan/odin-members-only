@@ -12,4 +12,6 @@ router.post('/sign-in', controller.postSignIn);
 
 router.get('/sign-out', controller.getSignOut);
 
+router.get('/join-the-club', controller.getJoinTheClub);
+
 module.exports = router;
