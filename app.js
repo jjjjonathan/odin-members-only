@@ -26,7 +26,16 @@ const User = require('./models/user');
 
 const app = express();
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        'script-src': ["'self'", 'cdn.jsdelivr.net'],
+      },
+    },
+  })
+);
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
