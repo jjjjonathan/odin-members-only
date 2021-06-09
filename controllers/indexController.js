@@ -29,7 +29,7 @@ exports.getAddMessage = (req, res) => {
 };
 
 exports.postAddMessage = [
-  body('message')
+  body('text')
     .trim()
     .isLength({ min: 10, max: 1000 })
     .withMessage('Message must be between 10 and 1000 characters.')

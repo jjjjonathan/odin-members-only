@@ -17,6 +17,7 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const logger = require('morgan');
 const compression = require('compression');
+const helmet = require('helmet');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -24,6 +25,8 @@ const usersRouter = require('./routes/users');
 const User = require('./models/user');
 
 const app = express();
+
+app.use(helmet());
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
