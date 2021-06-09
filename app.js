@@ -16,6 +16,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const logger = require('morgan');
+const compression = require('compression');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -82,6 +83,7 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(flash());
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', usersRouter);
